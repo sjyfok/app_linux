@@ -73,13 +73,13 @@ int main(int ac, char *av[])
     /* send a string through the socket to that address */
 
 	//open a big file
-	fd_read = open("/root/test.tar", O_RDONLY);
+	fd_read = open("/root/test.txt", O_RDONLY);
 	if (fd_read == -1)
 	{
 		perror("Fail to open:");
 		return -1;
 	}
-	if (stat("/root/test.tar", &file_info) == -1)
+	if (stat("/root/test.txt", &file_info) == -1)
 	{
 		perror("Fail to stat:");
 		return -1;
@@ -94,7 +94,7 @@ int main(int ac, char *av[])
 		close(fd_read);
 		return -1;
 	}
-
+	printf("%s\n", testbuf[0].buf);
   idx = 0;
 
 	FD_ZERO(&read_set);
@@ -102,7 +102,7 @@ int main(int ac, char *av[])
 	max_fd = sock+1;
   while (send_byte < file_size)   //send a big file
   {
-		if (sendto(sock, testbuf[0].buf, PACK_SIZE, 0, &saddr, (size_t)&saddrlen) == -1)
+		if (sendto(sock, testbuf[0].buf, PACK_SIZE, 0, &saddr, sizeof(saddr)) == -1)
 		{
 			oops("sendto failed", 3);
 		}
