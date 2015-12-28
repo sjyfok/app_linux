@@ -14,9 +14,9 @@
 #define oops(m,x)  { perror(m);exit(x);}
 
 int  make_dgram_server_socket(int);
-int  get_internet_address(char *, int,  int *, struct sockaddr *);
-void say_who_called(struct sockaddr *);
-void reply_to_sender(int sock, char *buf, struct sockaddr *saddr, socklen_t len);
+int  get_internet_address(char *, int,  int *, struct sockaddr_in *);
+void say_who_called(struct sockaddr_in *);
+void reply_to_sender(int sock, char *buf, struct sockaddr_in *saddr, socklen_t len);
 
 int main(int ac, char *av[])
 {
@@ -24,7 +24,7 @@ int main(int ac, char *av[])
 	int	sock;			/* for this socket		*/
 	char	buf[BUFSIZ];		/* to receive data here		*/
 	size_t	msglen;			/* store its length here	*/
-	struct  sockaddr   saddr;	/* put sender's address here	*/
+	struct  sockaddr_in   saddr;	/* put sender's address here	*/
 	socklen_t saddrlen;		/* and its length here		*/
 	
 	if ( ac == 1 || (port = atoi(av[1])) <= 0 ){
@@ -50,14 +50,17 @@ int main(int ac, char *av[])
 	return 0;
 }
 
-void reply_to_sender(int sock, char *buf, struct sockaddr *saddr, socklen_t len)
+
+void reply_to_sender(int sock, char *buf, struct sockaddr_in *saddr, socklen_t len)
 {
 	char reply[BUFSIZ+BUFSIZ];
-	sprintf(reply, "Thanks for you %d char message\n", (int)strlen(buf));
-	sendto(sock, (const char*) reply, (size_t)strlen(reply), 0, saddr, len);
+//	sprintf(reply, "Thanks for you %d char message\n", (int)strlen(buf));
+	strcpy(reply, "ACK");
+	sendto(sock, (const char*) reply, (size_t)strlen(reply), 0, (struct sockaddr*)saddr, len);
 }
 
-void say_who_called(struct sockaddr *addrp)
+
+void say_who_called(struct sockaddr_in *addrp)
 {
 	char	host[BUFSIZ];
 	int	port;
