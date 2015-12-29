@@ -6,8 +6,8 @@
 #
 CC=gcc
 all: dgserver dgclient
-dgserver: dgram.c dgrecv.c
-	$(CC) -o dgserver dgram.c dgrecv.c 
+dgserver: dgram.c dgrecv.c fileinfo.c
+	$(CC) -o dgserver dgram.c dgrecv.c fileinfo.c
 dgclient: dgsend.c dgram.c
 	$(CC) -o dgclient dgsend.c dgram.c
 clean:
