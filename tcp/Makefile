@@ -6,10 +6,10 @@
 #
 CC=gcc
 all: server client
-server: socklib.c tcps.c
-	$(CC) -o server socklib.c tcps.c 
-client: tcpc.c socklib.c
-	$(CC) -o client socklib.c tcpc.c
+server: tcpsocklib.c server.c
+	$(CC) -o server tcpsocklib.c server.c 
+client: client.c tcpsocklib.c
+	$(CC) -o client tcpsocklib.c client.c
 clean:
 	rm -f *.o server client
 

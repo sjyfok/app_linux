@@ -1,0 +1,2 @@
+make CC=arm-linux-gcc server    for arm
+make client      for PC
